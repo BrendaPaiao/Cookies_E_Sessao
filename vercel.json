@@ -9,7 +9,7 @@
     "routes": [
         {
             "src": "/login",
-            "dest": "/pages/public/login.html"
+            "dest": "/login.html"
         },
         {
             "src": "/(.*)",
