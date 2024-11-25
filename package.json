@@ -1,0 +1,25 @@
+{
+  "name": "validacoes_de_formulario-",
+  "version": "1.0.0",
+  "description": "Validação dos campos de um  formulário",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "start":"nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrendaPaiao/Validacoes_de_Formulario-.git"
+  },
+  "author": "Brenda Paião",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrendaPaiao/Validacoes_de_Formulario-/issues"
+  },
+  "homepage": "https://github.com/BrendaPaiao/Validacoes_de_Formulario-#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  }
+}
