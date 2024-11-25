@@ -17,14 +17,118 @@ app.use(session({
 
 app.use(cookieParser());
 
-app.use(express.urlencoded({ extend: true }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('./pages/public'));
+//app.use(express.static('./pages/public'));
 
 const porta = 3000;
 const host = '0.0.0.0';
 
 var listaUsuarios = [];
+
+function login(req, resp) {
+    resp.send(`
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <title>Login - PortalEmpresarial</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+                    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+                    <style>
+                        body {
+                            background-color: #333333;
+                            font-family: Arial, sans-serif;
+                            display: flex;
+                            flex-direction: column;
+                            min-height: 100vh;
+                            margin: 0;
+                            justify-content: center;
+                        }
+                        .navbar {
+                            background-color: gray !important;
+                            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                        }
+                        .navbar-brand, .nav-link {
+                            font-family: 'Cinzel', serif;
+                            font-weight: bold;
+                            color: #D6C9B7 !important;
+                        }
+                        .navbar-brand:hover, .nav-link:hover {
+                            color: white !important;
+                        }
+                        .container {
+                            max-width: 1000px;
+                            width: 90%;
+                            margin: 115px auto;
+                            padding: 20px;
+                            background-color: #E0DFD9;
+                            box-shadow: 0px 4px 8px rgba(37, 35, 35, 0.2);
+                            border-radius: 10px;
+                        }
+                        legend {
+                            font-family: 'Cinzel', serif;
+                            color: #D6C9B7;
+                            text-align: center;
+                            padding: 10px;
+                            background-color: rgba(255, 255, 255, 0.8);
+                            text-decoration: underline;
+                            text-decoration-color: #D6C9B7;
+                        }
+                        label {
+                            font-weight: bold;
+                        }
+                        .btn-primary {
+                            background-color: gray;
+                            border-color: #BFBFBF;
+                        }
+                        .btn-primary:hover {
+                            background-color: #D6C9B7;
+                            border-color: gray;
+                        }
+                        .footer {
+                            background-color: gray;
+                            color: #fff;
+                            font-size: 14px;
+                            text-align: center;
+                            padding: 20px 0;
+                            margin-top: auto;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="/">PortalEmpresarial</a>
+                        </div>
+                    </nav>
+                    <div class="container w-50 mt-5">
+                        <form action='/login' method='POST' class="row g-3 needs-validation" novalidate>
+                            <fieldset class="border p-3">
+                                <legend class="mb-3">Autenticação do Sistema</legend>
+                                <div class="col-md-6">
+                                    <label for="usuario" class="form-label">Usuário:</label>
+                                    <input type="text" class="form-control" id="usuario" name="usuario" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="senha" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="senha" name="senha" required>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <button class="btn btn-primary" type="submit">Login</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="footer">
+                        <p>&copy; 2024 PortalEmpresarial. Todos os direitos reservados.</p>
+                    </div>
+                </body>
+                </html>
+        `);
+}
 
 function cadastroEmpresarial(req, resp) {
     resp.send(`
@@ -317,7 +421,7 @@ let listaProdutos = [];
 
 function cadastrarProduto(req, resp) {
 
-    const codigoBarras = req.body.codigoBarras ;
+    const codigoBarras = req.body.codigoBarras;
     const descricao = req.body.descricao;
     const precoCusto = req.body.precoCusto;
     const precoVenda = req.body.precoVenda;
@@ -646,7 +750,7 @@ function autenticarUsuario(req, resp) {
                             Usuário ou senha inválidos!
                         </div>
                         <div>
-                            <a href="/login.html" class="btn btn-primary">Tentar novamente</a>
+                            <a href="/login" class="btn btn-primary">Tentar novamente</a>
                         </div>
                     </body>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -654,24 +758,23 @@ function autenticarUsuario(req, resp) {
     }
 }
 
+
+
 function verificarAutentificacao(req, resp, next) {
     if (req.session.usuarioLogado) {
         next();
     }
     else {
-        resp.redirect('/login.html');
+        resp.redirect('/login');
     }
 }
 
-app.get('/login', (req, resp) => {
-    resp.redirect('/login.html');
-});
-
 app.get('/logout', (req, resp) => {
     req.session.destroy();
-    resp.redirect('/login.html');
+    resp.redirect('/login');
 });
 
+app.get('/login', login);
 app.post('/login', autenticarUsuario);
 app.get('/', verificarAutentificacao, menu);
 app.get('/cadastrar', verificarAutentificacao, cadastroEmpresarial);
@@ -679,5 +782,5 @@ app.get('/cadastrar', verificarAutentificacao, cadastroEmpresarial);
 app.post('/cadastrar', verificarAutentificacao, cadastrarProduto);
 
 app.listen(porta, host, () => {
-    console.log(`Servidor iniciado e em execução no endereço http://${host}:${porta}`)
+    console.log(`Servidor iniciado e em execução no endereço http://${host}:${porta}`);
 });
