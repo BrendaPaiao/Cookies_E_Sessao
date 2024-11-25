@@ -8,14 +8,12 @@
     ],
     "routes": [
         {
+            "src": "/login",
+            "dest": "/pages/public/login.html"
+        },
+        {
             "src": "/(.*)",
             "dest": "index.js"
-        }
-    ],
-    "rewrites": [
-        {
-            "source": "/login",
-            "destination": "/pages/public/login.html"
         }
     ]
 }
