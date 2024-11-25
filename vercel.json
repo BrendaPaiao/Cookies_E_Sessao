@@ -11,5 +11,11 @@
             "src": "/(.*)",
             "dest": "index.js"
         }
+    ],
+    "rewrites": [
+        {
+            "source": "/login",
+            "destination": "/pages/public/login.html"
+        }
     ]
 }
